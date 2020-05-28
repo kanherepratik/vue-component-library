@@ -35,7 +35,8 @@
   ],
   "dependencies": {
     "date-fns": "^2.13.0",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "v-calendar": "^1.0.0-beta.23"
   },
   "devDependencies": {
     "@types/jest": "^24.0.19",
@@ -64,6 +65,7 @@
     "rimraf": "^3.0.2",
     "typedoc": "^0.17.6",
     "typescript": "~3.8.3",
+    "vue-docgen": "^0.0.3",
     "vue-styleguidist": "^4.20.0",
     "vue-template-compiler": "^2.6.11",
     "webpack-bundle-tracker": "^1.0.0-alpha.1"
