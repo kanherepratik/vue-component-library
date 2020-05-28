@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build-lib": "vue-cli-service build --target lib --name vue-common-components src/main.ts",
     "lint": "vue-cli-service lint --fix",
     "docs": "npm run docs:clean && npm run docs:ts && npm run docs:vue",
     "docs:ts": "typedoc --tsconfig tsconfig.json",
@@ -13,8 +13,27 @@
     "styleguide:build": "vue-styleguidist build",
     "docs:clean": "rimraf public/docs"
   },
+  "main": "./dist/vue-common-components.common.js",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "files": [
+    "dist/*",
+    "src/*",
+    "public/*",
+    "*.json",
+    "*.js",
+    "*.ts"
+  ],
+  "keywords": [
+    "ui framework",
+    "component framework",
+    "ui library",
+    "component library",
+    "vue framework"
+  ],
   "dependencies": {
-    "axios": "^0.19.2",
     "date-fns": "^2.13.0",
     "vue": "^2.6.11"
   },
