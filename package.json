@@ -1,5 +1,5 @@
 {
-  "name": "vue-common-components",
+  "name": "vue-components",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -16,7 +16,7 @@
   "main": "./dist/vue-common-components.common.js",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git@bitbucket.org:paytmteam/vue-components.git "
   },
   "files": [
     "dist/*",
