@@ -22,6 +22,7 @@ interface IItemProps {
 }
 
 interface IRadioButtonData {
+  inputValue: string;
   validation: IValidation; // To store the validation object
 }
 
@@ -59,14 +60,24 @@ export default Vue.extend({
     },
   },
   data: (): IRadioButtonData => ({
+    inputValue: '',
     validation: { isValid: true } as IValidation,
   }),
+  watch: {
+    value(): void {
+      this.inputValue = this.$props.selectedItem;
+    },
+  },
+  mounted(): void {
+    this.inputValue = this.$props.selectedItem;
+  },
   methods: {
     handleChange(value: string): void {
       // Event to be discarded if input is disabled
       if (this.disabled) {
         return;
       }
+      this.inputValue = value;
       this.$emit('onChange', value);
     },
     /**
@@ -74,7 +85,7 @@ export default Vue.extend({
      * @returns boolean whether current state of the input is valid or not
      */
     isValid(): boolean {
-      this.validation = validationHandler(this.selectedItem, this.validations);
+      this.validation = validationHandler(this.inputValue, this.validations);
       return this.validation.isValid;
     },
   },
