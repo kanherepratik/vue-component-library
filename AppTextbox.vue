@@ -1,19 +1,26 @@
 <template>
-  <div>
-    <div v-if="label" class="textboxContainer__label">{{ label }}</div>
-    <input
-      ref="input"
-      type="tel"
-      v-model="inputValue"
-      :autofocus="autoFocus"
-      :disabled="disabled"
-      :placeholder="placeholder"
-      :maxlength="maxLen"
-      @input="onChange"
-      @focus="onFocus"
-      @blur="onBlur"
-    />
-    <div v-if="!validation.isValid">{{ validation.message }}</div>
+  <div class="appTextbox">
+    <div class="textboxContainer">
+      <div v-if="label" class="textboxContainer__label">{{ label }}</div>
+      <!--
+        triggered on any checkbox click
+        @event onChange
+      -->
+      <input
+        class="textboxContainer__input"
+        v-model="inputValue"
+        :type="inputType"
+        :autofocus="autoFocus"
+        :placeholder="placeholder"
+        :disabled="disabled"
+        @input="onChange"
+        @focus="onFocus"
+        @blur="onBlur"
+      />
+      <div v-if="clearable" class="textboxContainer__clearIcon">{{ clearIcon }}</div>
+    </div>
+    <div v-if="!validation.isValid" class="textboxErrorMsg">{{ validation.message }}</div>
+    <div v-else-if="message" class="textboxMsg">{{ message }}</div>
   </div>
 </template>
 
@@ -23,21 +30,35 @@ import { IValidationRule, IValidation } from '../shared/interfaces';
 import { validationHandler } from '../shared/validations';
 
 // local interface for data properties
-interface IMobileInput {
+interface IAppTextboxData {
   inputValue: string;
   validation: IValidation; // To store the validation object
 }
 
 export default Vue.extend({
-  name: 'MobileInput',
+  name: 'AppTextbox',
+  /**
+   * Model of the component
+   * prop contains the state of the component
+   */
   props: {
     /**
-     * Validations array of objects of type IValidationRule to valdiate the input
-     * @values Array<IValidationRule>
+     * Type of input
+     * @values String
+     * @default ""
      */
-    validations: {
-      type: Array as () => Array<IValidationRule>,
-      default: (): Array<IValidationRule> => [] as Array<IValidationRule>,
+    value: {
+      type: [String, Number],
+      default: '',
+    },
+    /**
+     * Type of input
+     * @values String
+     * @default text
+     */
+    inputType: {
+      type: String,
+      default: 'text',
     },
     /**
      * Focus state of input
@@ -49,6 +70,23 @@ export default Vue.extend({
       default: false,
     },
     /**
+     * Max length of the input
+     * @values Number
+     */
+    clearable: {
+      type: Boolean,
+      default: false,
+    },
+    /**
+     * Clear icon to be shown if the input can be clear using the icon
+     * @values String
+     * @default x
+     */
+    clearIcon: {
+      type: String,
+      default: 'x',
+    },
+    /**
      * Disabled state of input
      * @values Boolean
      * @default false
@@ -58,20 +96,6 @@ export default Vue.extend({
       default: false,
     },
     /**
-     * Placeholder to be shown on the input
-     * @values String
-     */
-
-    placeholder: {
-      type: String,
-      default: '',
-    },
-    /**
-     * Max length of the input
-     * @values Number
-     */
-    maxLen: Number,
-    /**
      * Label to be shown above the input
      * @values String
      */
@@ -79,8 +103,32 @@ export default Vue.extend({
       type: String,
       default: '',
     },
+    /**
+     * Placeholder to be shown on the input
+     * @values String
+     */
+    placeholder: {
+      type: String,
+      default: '',
+    },
+    /**
+     * Message to be shown below the input
+     * @values String
+     */
+    message: {
+      type: String,
+      default: '',
+    },
+    /**
+     * Validations array of objects of type IValidationRule to valdiate the input
+     * @values Array<IValidationRule>
+     */
+    validations: {
+      type: Array as () => Array<IValidationRule>,
+      default: (): Array<IValidationRule> => [] as Array<IValidationRule>,
+    },
   },
-  data: (): IMobileInput => ({
+  data: (): IAppTextboxData => ({
     inputValue: '',
     validation: { isValid: true } as IValidation,
   }),
@@ -89,6 +137,10 @@ export default Vue.extend({
       this.inputValue = String(this.$props.value || '');
     },
   },
+  mounted(): void {
+    this.inputValue = String(this.$props.value || '');
+  },
+
   methods: {
     /**
      * Calls the validationHandler to check the validations, whether the state of input is valid or not
@@ -134,5 +186,3 @@ export default Vue.extend({
   },
 });
 </script>
-
-<style></style>
